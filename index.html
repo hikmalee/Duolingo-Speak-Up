@@ -146,11 +146,15 @@
           <div class="match-header"><div><span class="live-dot">ROOM READY</span><h2>Your discussion room</h2><p id="roomMeta">Daily Life · 15 minutes</p></div><button class="icon-btn" id="leaveRoomBtn" title="Keluar room">✕</button></div>
           <div class="topic-prompt"><span>💬 TODAY'S TOPIC</span><h3 id="roomTopicTitle">Let's talk about daily life!</h3><p id="roomPrompt">What is one thing that made you happy this week?</p></div>
           <div class="participant-grid" id="participantGrid">
-            <div class="participant self"><div class="participant-avatar green-avatar">H</div><b>You</b><small>Ready to speak</small></div>
-            <div class="participant"><div class="participant-avatar purple-avatar">A</div><b>Alex</b><small>English learner</small></div>
-            <div class="participant"><div class="participant-avatar orange-avatar">M</div><b>Mia</b><small>English learner</small></div>
-            <div class="participant"><div class="participant-avatar blue-avatar">J</div><b>Jordan</b><small>English learner</small></div>
+            <div class="participant self">
+              <div class="video-stage"><video id="localVideo" autoplay playsinline muted></video><div class="video-placeholder" id="localVideoPlaceholder"><div class="participant-avatar green-avatar">H</div><span>Kamera belum aktif</span></div><span class="media-live hidden" id="cameraLive">CAMERA ON</span></div>
+              <b>You</b><small id="selfMediaStatus">Mic off · Camera off</small>
+            </div>
+            <div class="participant simulated"><div class="participant-avatar purple-avatar">A</div><b>Alex</b><small>Demo participant</small><span class="demo-tag">SIMULASI</span></div>
+            <div class="participant simulated"><div class="participant-avatar orange-avatar">M</div><b>Mia</b><small>Demo participant</small><span class="demo-tag">SIMULASI</span></div>
+            <div class="participant simulated"><div class="participant-avatar blue-avatar">J</div><b>Jordan</b><small>Demo participant</small><span class="demo-tag">SIMULASI</span></div>
           </div>
+          <p class="media-disclaimer">Kamera dan mikrofon hanya aktif di perangkatmu. Tiga peserta lain masih berupa simulasi, bukan pengguna yang terhubung langsung.</p>
           <div class="room-game-panel">
             <div class="room-game-heading"><div><span class="eyebrow green">PLAY TOGETHER</span><h3>Let's play a game!</h3><p>Pilih permainan untuk dimainkan bersama anggota room.</p></div><span class="game-live-pill">4 PLAYERS</span></div>
             <div class="room-game-tabs">
