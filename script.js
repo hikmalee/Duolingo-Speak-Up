@@ -1,6 +1,6 @@
 const $ = (s, root=document) => root.querySelector(s);
 const $$ = (s, root=document) => [...root.querySelectorAll(s)];
-const state = { xp: 120, sessions: 4, games: 2, streak: 3, duration: 15, roomTimer: null, seconds: 900, mic: true, camera: false, challengeDone: false };
+const state = { xp: 120, sessions: 4, games: 2, streak: 3, duration: 15, roomTimer: null, seconds: 900, mic: false, camera: false, mediaStream: null, challengeDone: false };
 const topics = {
   "Daily Life": ["Let's talk about daily life!", "What is one thing that made you happy this week?"],
   "Campus Life": ["Let's talk about campus life!", "What is your favorite thing about being a student?"],
@@ -13,7 +13,7 @@ let toastTimer;
 function toast(message){const el=$("#toast");el.textContent=message;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),2600)}
 function updateStats(){ $("#xpTop").textContent=state.xp+" XP";$("#homeXp").textContent=state.xp;$("#progressXp").textContent=state.xp;$("#homeSessions").textContent=state.sessions;$("#progressSessions").textContent=state.sessions;$("#progressGames").textContent=state.games;$("#streakTop").textContent=state.streak; }
 function go(page){
-  if(page!=="room" && document.body.classList.contains("room-mode")){document.body.classList.remove("room-mode");clearInterval(state.roomTimer);$("#matchedRoom").classList.add("hidden");$("#roomSetup").classList.remove("hidden");}
+  if(page!=="room" && document.body.classList.contains("room-mode")){closeRoom(false,false);}
   $$(".page").forEach(p=>p.classList.remove("active"));
   const target=$("#page-"+page); if(target) target.classList.add("active");
   $$(".nav-link").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
@@ -39,17 +39,80 @@ function matchRoom(){
   $("#roomMeta").textContent=`${topic} · ${state.duration} minutes · 4 participants`;
   const others=[...names].sort(()=>Math.random()-.5).slice(0,3);
   const colors=["purple-avatar","orange-avatar","blue-avatar"];
-  $("#participantGrid").innerHTML=`<div class="participant self"><div class="participant-avatar green-avatar">${($("#displayName")?.value||"H").charAt(0).toUpperCase()}</div><b>You</b><small>Ready to speak</small></div>`+others.map((n,i)=>`<div class="participant"><div class="participant-avatar ${colors[i]}">${n[0]}</div><b>${n}</b><small>English learner</small></div>`).join("");
+  const displayName=($("#displayName")?.value||"H").trim()||"You";
+  $("#participantGrid").innerHTML=`<div class="participant self">
+    <div class="video-stage"><video id="localVideo" autoplay playsinline muted></video><div class="video-placeholder" id="localVideoPlaceholder"><div class="participant-avatar green-avatar">${displayName.charAt(0).toUpperCase()}</div><span>Kamera belum aktif</span></div><span class="media-live hidden" id="cameraLive">CAMERA ON</span></div>
+    <b>You</b><small id="selfMediaStatus">Mic off · Camera off</small></div>`+
+    others.map((n,i)=>`<div class="participant simulated"><div class="participant-avatar ${colors[i]}">${n[0]}</div><b>${n}</b><small>Demo participant</small><span class="demo-tag">SIMULASI</span></div>`).join("");
   $("#roomSetup").classList.add("hidden");$("#matchedRoom").classList.remove("hidden");document.body.classList.add("room-mode");renderRoomGame("guess");
-  state.mic=true;state.camera=false;$("#micBtn").innerHTML="🎙️ <span>Mic on</span>";$("#cameraBtn").innerHTML="📷 <span>Camera off</span>";
-  startTimer();toast("Room berhasil ditemukan! Let's speak English.");
+  state.mic=false;state.camera=false;state.mediaStream=new MediaStream();
+  updateMediaUI();
+  startTimer();toast("Room demo siap. Aktifkan kamera atau mikrofon jika diperlukan.");
 }
 $("#findRoomBtn").addEventListener("click",()=>{const btn=$("#findRoomBtn");btn.disabled=true;btn.textContent="Mencari peserta...";setTimeout(()=>{btn.disabled=false;btn.innerHTML='Cari teman ngobrol <span>→</span>';matchRoom()},1100)});
-function finishRoom(auto=false){clearInterval(state.roomTimer);document.body.classList.remove("room-mode");$("#matchedRoom").classList.add("hidden");$("#roomSetup").classList.remove("hidden");if(!auto){state.sessions++;state.xp+=25;updateStats();toast("Sesi selesai! Kamu mendapatkan +25 XP.");}else{state.sessions++;state.xp+=25;updateStats();toast("Waktu habis! +25 XP untuk sesi yang selesai.");}}
+function updateMediaUI(){
+  const micTrack=state.mediaStream?.getAudioTracks().find(t=>t.readyState==="live");
+  const cameraTrack=state.mediaStream?.getVideoTracks().find(t=>t.readyState==="live");
+  state.mic=!!micTrack && micTrack.enabled;
+  state.camera=!!cameraTrack && cameraTrack.enabled;
+  const micBtn=$("#micBtn"), cameraBtn=$("#cameraBtn");
+  if(micBtn) micBtn.innerHTML=state.mic?"🎙️ <span>Mic on</span>":"🔇 <span>Mic off</span>";
+  if(cameraBtn) cameraBtn.innerHTML=state.camera?"📹 <span>Camera on</span>":"📷 <span>Camera off</span>";
+  if($("#selfMediaStatus")) $("#selfMediaStatus").textContent=`Mic ${state.mic?"on":"off"} · Camera ${state.camera?"on":"off"}`;
+  if($("#localVideoPlaceholder")) $("#localVideoPlaceholder").classList.toggle("hidden",state.camera);
+  if($("#cameraLive")) $("#cameraLive").classList.toggle("hidden",!state.camera);
+}
+async function enableMedia(kind){
+  if(!navigator.mediaDevices?.getUserMedia){
+    toast("Browser tidak mendukung akses media. Gunakan HTTPS atau localhost.");
+    return;
+  }
+  try{
+    const constraints=kind==="video"?{video:{facingMode:"user",width:{ideal:1280},height:{ideal:720}}}:{audio:{echoCancellation:true,noiseSuppression:true}};
+    const fresh=await navigator.mediaDevices.getUserMedia(constraints);
+    fresh.getTracks().forEach(track=>state.mediaStream.addTrack(track));
+    if(kind==="video"){
+      const video=$("#localVideo");
+      video.srcObject=state.mediaStream;
+      await video.play().catch(()=>{});
+    }
+    updateMediaUI();
+    toast(kind==="video"?"Kamera berhasil diaktifkan.":"Mikrofon berhasil diaktifkan.");
+  }catch(error){
+    let message="Tidak dapat mengakses perangkat.";
+    if(error.name==="NotAllowedError"||error.name==="PermissionDeniedError") message="Izin ditolak. Izinkan kamera/mikrofon melalui pengaturan browser.";
+    else if(error.name==="NotFoundError"||error.name==="DevicesNotFoundError") message=kind==="video"?"Kamera tidak ditemukan.":"Mikrofon tidak ditemukan.";
+    else if(error.name==="NotReadableError") message="Perangkat sedang digunakan aplikasi lain.";
+    else if(error.name==="OverconstrainedError") message="Perangkat tidak mendukung pengaturan media yang diminta.";
+    toast(message);
+  }
+}
+function toggleTrack(kind){
+  const track=(kind==="video"?state.mediaStream?.getVideoTracks():state.mediaStream?.getAudioTracks())?.find(t=>t.readyState==="live");
+  if(track){
+    track.stop();
+    state.mediaStream.removeTrack(track);
+    if(kind==="video" && $("#localVideo")) $("#localVideo").srcObject=null;
+    updateMediaUI();
+    toast(kind==="video"?"Kamera dimatikan.":"Mikrofon dimatikan.");
+  }else enableMedia(kind);
+}
+function stopAllMedia(){
+  if(state.mediaStream) state.mediaStream.getTracks().forEach(track=>track.stop());
+  state.mediaStream=new MediaStream();
+  state.mic=false;state.camera=false;
+}
+function closeRoom(auto=false, award=true){
+  clearInterval(state.roomTimer);stopAllMedia();document.body.classList.remove("room-mode");
+  $("#matchedRoom").classList.add("hidden");$("#roomSetup").classList.remove("hidden");
+  if(award){state.sessions++;state.xp+=25;updateStats();toast(auto?"Waktu habis! +25 XP untuk sesi yang selesai.":"Sesi selesai! Kamu mendapatkan +25 XP.");}
+}
+function finishRoom(auto=false){closeRoom(auto,true)}
 $("#finishRoomBtn").addEventListener("click",()=>finishRoom(false));
-$("#leaveRoomBtn").addEventListener("click",()=>{clearInterval(state.roomTimer);document.body.classList.remove("room-mode");$("#matchedRoom").classList.add("hidden");$("#roomSetup").classList.remove("hidden");toast("Kamu keluar dari room.")});
-$("#micBtn").addEventListener("click",()=>{state.mic=!state.mic;$("#micBtn").innerHTML=state.mic?"🎙️ <span>Mic on</span>":"🔇 <span>Mic off</span>";toast(state.mic?"Microphone dinyalakan (simulasi).":"Microphone dimatikan (simulasi).")});
-$("#cameraBtn").addEventListener("click",()=>{state.camera=!state.camera;$("#cameraBtn").innerHTML=state.camera?"📹 <span>Camera on</span>":"📷 <span>Camera off</span>";toast(state.camera?"Camera dinyalakan (simulasi).":"Camera dimatikan (simulasi).")});
+$("#leaveRoomBtn").addEventListener("click",()=>closeRoom(false,false));
+$("#micBtn").addEventListener("click",()=>toggleTrack("audio"));
+$("#cameraBtn").addEventListener("click",()=>toggleTrack("video"));
+window.addEventListener("beforeunload",stopAllMedia);
 
 const roomGameData={
  guess:{label:"ROUND 01 · VOCABULARY",question:"“A place where you can borrow or read books.”",desc:"Discuss with your room members and choose the correct word.",options:["Restaurant","Library","Airport"],correct:"Library",feedback:"Correct! Now make a sentence using the word library."},
