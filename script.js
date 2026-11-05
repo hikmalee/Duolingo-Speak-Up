@@ -13,6 +13,7 @@ let toastTimer;
 function toast(message){const el=$("#toast");el.textContent=message;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),2600)}
 function updateStats(){ $("#xpTop").textContent=state.xp+" XP";$("#homeXp").textContent=state.xp;$("#progressXp").textContent=state.xp;$("#homeSessions").textContent=state.sessions;$("#progressSessions").textContent=state.sessions;$("#progressGames").textContent=state.games;$("#streakTop").textContent=state.streak; }
 function go(page){
+  if(page!=="room" && document.body.classList.contains("room-mode")){document.body.classList.remove("room-mode");clearInterval(state.roomTimer);$("#matchedRoom").classList.add("hidden");$("#roomSetup").classList.remove("hidden");}
   $$(".page").forEach(p=>p.classList.remove("active"));
   const target=$("#page-"+page); if(target) target.classList.add("active");
   $$(".nav-link").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
@@ -39,16 +40,39 @@ function matchRoom(){
   const others=[...names].sort(()=>Math.random()-.5).slice(0,3);
   const colors=["purple-avatar","orange-avatar","blue-avatar"];
   $("#participantGrid").innerHTML=`<div class="participant self"><div class="participant-avatar green-avatar">${($("#displayName")?.value||"H").charAt(0).toUpperCase()}</div><b>You</b><small>Ready to speak</small></div>`+others.map((n,i)=>`<div class="participant"><div class="participant-avatar ${colors[i]}">${n[0]}</div><b>${n}</b><small>English learner</small></div>`).join("");
-  $("#roomSetup").classList.add("hidden");$("#matchedRoom").classList.remove("hidden");
+  $("#roomSetup").classList.add("hidden");$("#matchedRoom").classList.remove("hidden");document.body.classList.add("room-mode");renderRoomGame("guess");
   state.mic=true;state.camera=false;$("#micBtn").innerHTML="🎙️ <span>Mic on</span>";$("#cameraBtn").innerHTML="📷 <span>Camera off</span>";
   startTimer();toast("Room berhasil ditemukan! Let's speak English.");
 }
 $("#findRoomBtn").addEventListener("click",()=>{const btn=$("#findRoomBtn");btn.disabled=true;btn.textContent="Mencari peserta...";setTimeout(()=>{btn.disabled=false;btn.innerHTML='Cari teman ngobrol <span>→</span>';matchRoom()},1100)});
-function finishRoom(auto=false){clearInterval(state.roomTimer);$("#matchedRoom").classList.add("hidden");$("#roomSetup").classList.remove("hidden");if(!auto){state.sessions++;state.xp+=25;updateStats();toast("Sesi selesai! Kamu mendapatkan +25 XP.");}else{state.sessions++;state.xp+=25;updateStats();toast("Waktu habis! +25 XP untuk sesi yang selesai.");}}
+function finishRoom(auto=false){clearInterval(state.roomTimer);document.body.classList.remove("room-mode");$("#matchedRoom").classList.add("hidden");$("#roomSetup").classList.remove("hidden");if(!auto){state.sessions++;state.xp+=25;updateStats();toast("Sesi selesai! Kamu mendapatkan +25 XP.");}else{state.sessions++;state.xp+=25;updateStats();toast("Waktu habis! +25 XP untuk sesi yang selesai.");}}
 $("#finishRoomBtn").addEventListener("click",()=>finishRoom(false));
-$("#leaveRoomBtn").addEventListener("click",()=>{clearInterval(state.roomTimer);$("#matchedRoom").classList.add("hidden");$("#roomSetup").classList.remove("hidden");toast("Kamu keluar dari room.")});
+$("#leaveRoomBtn").addEventListener("click",()=>{clearInterval(state.roomTimer);document.body.classList.remove("room-mode");$("#matchedRoom").classList.add("hidden");$("#roomSetup").classList.remove("hidden");toast("Kamu keluar dari room.")});
 $("#micBtn").addEventListener("click",()=>{state.mic=!state.mic;$("#micBtn").innerHTML=state.mic?"🎙️ <span>Mic on</span>":"🔇 <span>Mic off</span>";toast(state.mic?"Microphone dinyalakan (simulasi).":"Microphone dimatikan (simulasi).")});
 $("#cameraBtn").addEventListener("click",()=>{state.camera=!state.camera;$("#cameraBtn").innerHTML=state.camera?"📹 <span>Camera on</span>":"📷 <span>Camera off</span>";toast(state.camera?"Camera dinyalakan (simulasi).":"Camera dimatikan (simulasi).")});
+
+const roomGameData={
+ guess:{label:"ROUND 01 · VOCABULARY",question:"“A place where you can borrow or read books.”",desc:"Discuss with your room members and choose the correct word.",options:["Restaurant","Library","Airport"],correct:"Library",feedback:"Correct! Now make a sentence using the word library."},
+ would:{label:"ROUND 02 · CONVERSATION",question:"Would you rather travel to the beach or the mountains?",desc:"Choose one, then explain your reason to the group in English.",options:["🏖️ Beach","⛰️ Mountains"],correct:null,feedback:"Good choice! Tell your group why you chose it."},
+ trivia:{label:"ROUND 03 · GRAMMAR",question:"Which sentence is grammatically correct?",desc:"Discuss your answer before selecting one.",options:["She go to school every day.","She goes to school every day.","She going to school every day."],correct:"She goes to school every day.",feedback:"That's right! Remember the -s for he, she, and it in simple present."},
+ story:{label:"ROUND 04 · CREATIVITY",question:"“Yesterday, I found a mysterious box in front of my house...”",desc:"Continue the story with one or two sentences. Read your idea to the group.",options:[],correct:null,feedback:"Great imagination! Let another room member continue the story."}
+};
+function renderRoomGame(key){
+ const g=roomGameData[key];
+ $$(".room-game-tab").forEach(b=>b.classList.toggle("active",b.dataset.roomGame===key));
+ const options=g.options.length?`<div class="room-game-options">${g.options.map(o=>`<button class="room-game-answer">${o}</button>`).join("")}</div>`:"";
+ const story=key==="story"?`<textarea class="room-game-input" id="roomStoryInput" placeholder="Continue the story in English..."></textarea><button class="btn btn-primary room-game-submit" id="roomStorySubmit">Share with group →</button>`:"";
+ $("#roomGameContent").innerHTML=`<div class="room-game-question"><span class="eyebrow green">${g.label}</span><h4>${g.question}</h4><p>${g.desc}</p></div>${options}${story}<div class="room-game-feedback" id="roomGameFeedback">Take turns and speak in English!</div>`;
+ $$(".room-game-answer").forEach(btn=>btn.addEventListener("click",()=>{
+  $$(".room-game-answer").forEach(x=>x.classList.remove("chosen"));btn.classList.add("chosen");
+  const fb=$("#roomGameFeedback");
+  if(g.correct){fb.textContent=btn.textContent===g.correct?"✓ "+g.feedback:"Not quite. Discuss with your group and try again.";}
+  else fb.textContent="Nice choice! "+g.feedback;
+ }));
+ if(key==="story")$("#roomStorySubmit").addEventListener("click",()=>{if($("#roomStoryInput").value.trim().length<5){$("#roomGameFeedback").textContent="Write at least a short sentence before sharing.";return}$("#roomGameFeedback").textContent="✓ Your story contribution has been added to this demo round!";});
+}
+$$(".room-game-tab").forEach(b=>b.addEventListener("click",()=>renderRoomGame(b.dataset.roomGame)));
+
 
 const gameData={
  guess:{title:"Guess the Word",html:`<div class="game-question"><span class="eyebrow green">GUESS THE WORD</span><h3>“A place where you can borrow or read books.”</h3><p>Choose the correct word.</p></div><div class="answer-list"><button class="answer-option" data-answer="A">A. Restaurant</button><button class="answer-option" data-answer="B">B. Library</button><button class="answer-option" data-answer="C">C. Airport</button></div><div class="feedback" id="gameFeedback"></div>`},
