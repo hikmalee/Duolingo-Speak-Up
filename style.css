@@ -149,3 +149,56 @@ body{background:#f6f9f5;color:var(--visual-ink)}
  .challenge-illustration{min-width:38%}
  .challenge-illustration img{min-height:190px}
 }
+
+/* V6 — playful motion + visual storytelling across every feature */
+:root{--visual-ink:#263b34;--visual-shadow:0 18px 40px rgba(45,105,40,.10)}
+html{scroll-behavior:smooth}
+button,.quick-card,.game-tile,.stat-card,.achievement,.prompt-item,.participant,.panel{transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s,border-color .28s,background .28s}
+.nav-link:hover{transform:translateX(5px)}
+.brand-mark{animation:brandBob 3.8s ease-in-out infinite}
+.welcome-banner:before{content:"";position:absolute;width:390px;height:390px;border:1px solid #ffffff38;border-radius:50%;right:7%;top:-190px;animation:slowSpin 24s linear infinite}
+.welcome-banner:after{content:"";position:absolute;width:270px;height:270px;border:1px dashed #ffffff70;border-radius:50%;right:15%;bottom:-180px;animation:slowSpin 18s linear infinite reverse}
+.hero-mascot{animation:mascotFloat 3.2s ease-in-out infinite;filter:drop-shadow(0 18px 12px #28690028)}
+.mascot-orbit-one{animation:slowSpin 18s linear infinite}.mascot-orbit-two{animation:slowSpin 26s linear infinite reverse}
+.speech-bubble{animation:bubbleFloat 3.4s ease-in-out infinite}.bubble-two{animation-delay:1.1s}
+.quick-card:hover,.game-tile:hover{transform:translateY(-8px) scale(1.012);box-shadow:var(--visual-shadow);border-color:#cdebbd}
+.quick-card .card-illustration,.game-illustration{transition:transform .6s cubic-bezier(.2,.8,.2,1),filter .4s}
+.quick-card:hover .card-illustration,.game-tile:hover .game-illustration{transform:scale(1.06);filter:saturate(1.12)}
+.card-illustration,.game-illustration{animation:illustrationBreath 6s ease-in-out infinite;transform-origin:center}
+.quick-card:nth-child(2) .card-illustration,.game-tile:nth-child(2) .game-illustration{animation-delay:.8s}.quick-card:nth-child(3) .card-illustration,.game-tile:nth-child(3) .game-illustration{animation-delay:1.5s}
+.quick-icon,.game-emoji{animation:iconBob 3.6s ease-in-out infinite}
+.stat-card:hover,.achievement:hover,.participant:hover{transform:translateY(-4px);box-shadow:0 12px 28px #244b2514}
+.stat-icon{animation:iconBob 4s ease-in-out infinite}
+.room-preview{position:relative;overflow:hidden}.room-match-art{width:100%;max-height:135px;object-fit:contain;margin:3px auto 12px;display:block;animation:illustrationBreath 5s ease-in-out infinite}
+.preview-step>span{animation:stepPulse 3s ease-in-out infinite}.preview-step:nth-of-type(3)>span{animation-delay:.4s}.preview-step:nth-of-type(4)>span{animation-delay:.8s}
+.live-dot:before{content:"";display:inline-block;width:6px;height:6px;background:#58cc02;border-radius:50%;margin-right:6px;box-shadow:0 0 0 0 #58cc0266;animation:livePulse 1.8s infinite}
+.participant{position:relative;overflow:hidden}.participant:after{content:"";position:absolute;inset:auto -25% -65% -25%;height:90px;background:radial-gradient(ellipse,#dff5d4 0,transparent 70%);pointer-events:none}.participant-avatar{animation:avatarFloat 4s ease-in-out infinite}.participant:nth-child(2) .participant-avatar{animation-delay:.4s}.participant:nth-child(3) .participant-avatar{animation-delay:.8s}.participant:nth-child(4) .participant-avatar{animation-delay:1.2s}
+.video-stage{box-shadow:inset 0 0 0 1px #ffffff80}.media-live{animation:livePulse 1.8s infinite}
+.room-game-panel{position:relative;overflow:hidden}.room-game-panel:after{content:"✦  ✧  ✦";position:absolute;right:20px;top:15px;color:#d5edc7;font-size:22px;letter-spacing:12px;pointer-events:none;animation:sparkle 4s ease-in-out infinite}.room-game-tab:hover,.duration:hover,.control-btn:hover{transform:translateY(-3px)}
+.game-play,.challenge-work{animation:popIn .4s ease both}.game-question{position:relative;overflow:hidden}.game-question:after{content:"✦";position:absolute;right:22px;top:12px;font-size:46px;color:#d5efc8;animation:sparkle 3s ease-in-out infinite}
+.challenge-feature{position:relative}.challenge-illustration img{animation:mascotFloat 4s ease-in-out infinite}.challenge-feature:after{content:"✦";position:absolute;right:7%;top:14%;font-size:30px;color:#a6d98b;animation:sparkle 3.5s infinite}.prompt-item:hover{transform:translateX(6px);background:#f4faef}.prompt-item>span:first-child{transition:transform .3s}.prompt-item:hover>span:first-child{transform:rotate(-8deg) scale(1.1)}
+.voice-art{width:100%;max-height:155px;object-fit:contain;display:block;margin:0 auto 12px;animation:illustrationBreath 4s ease-in-out infinite}
+.progress-hero{position:relative;overflow:hidden;min-height:190px;box-shadow:0 15px 32px #4cae1522}.progress-hero:after{content:"";position:absolute;width:240px;height:240px;border:1px solid #ffffff40;border-radius:50%;right:20%;top:-120px;animation:slowSpin 22s linear infinite}.progress-art{width:185px;height:150px;object-fit:contain;order:2;animation:mascotFloat 4s ease-in-out infinite;filter:drop-shadow(0 10px 8px #28690020)}
+.achievement>span{transition:transform .3s;display:block}.achievement:hover>span{transform:translateY(-6px) rotate(-10deg) scale(1.15)}.achievement.unlocked{position:relative;overflow:hidden}.achievement.unlocked:after{content:"";position:absolute;inset:-80% auto auto -30%;width:45%;height:250%;transform:rotate(28deg);background:linear-gradient(90deg,transparent,#ffffff90,transparent);animation:shine 5s ease-in-out infinite}
+.profile-panel{overflow:hidden}.profile-header{position:relative;min-height:155px;background:linear-gradient(110deg,#f1faeb,#fff);border-radius:16px;padding:15px 20px;margin-bottom:8px;overflow:hidden}.profile-art{width:180px;height:120px;object-fit:contain;margin-left:auto;animation:mascotFloat 4.2s ease-in-out infinite}.profile-avatar{flex-shrink:0;box-shadow:0 5px 0 #ccebbd;outline:5px solid #ffffff;z-index:1}
+.profile-row:hover{background:#fbfef9;padding-left:10px;padding-right:10px;border-radius:10px}
+.btn-primary{position:relative;overflow:hidden}.btn-primary:after,.btn-light:after{content:"";position:absolute;top:-60%;left:-70%;width:40%;height:220%;transform:rotate(25deg);background:#ffffff55;transition:left .6s}.btn-primary:hover:after,.btn-light:hover:after{left:130%}
+.toast.show{animation:toastPop .35s ease both}
+@keyframes mascotFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+@keyframes bubbleFloat{0%,100%{translate:0 0}50%{translate:0 -7px}}
+@keyframes iconBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes avatarFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes illustrationBreath{0%,100%{filter:saturate(1);translate:0 0}50%{filter:saturate(1.08);translate:0 -3px}}
+@keyframes slowSpin{to{transform:rotate(360deg)}}
+@keyframes sparkle{0%,100%{opacity:.45;transform:scale(.9) rotate(-8deg)}50%{opacity:1;transform:scale(1.12) rotate(8deg)}}
+@keyframes livePulse{0%{box-shadow:0 0 0 0 #58cc0266}70%{box-shadow:0 0 0 8px #58cc0200}100%{box-shadow:0 0 0 0 #58cc0200}}
+@keyframes stepPulse{0%,100%{box-shadow:0 3px 10px #203c1712}50%{box-shadow:0 0 0 7px #58cc0218}}
+@keyframes shine{0%,65%,100%{left:-60%}35%{left:140%}}
+@keyframes brandBob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(3deg)}}
+@keyframes popIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes toastPop{from{opacity:0;transform:translate(-50%,15px) scale(.95)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+@media(max-width:760px){.progress-art{width:110px;height:110px}.profile-art{width:115px;height:90px}.profile-header{min-height:115px;padding:12px}.room-match-art{max-height:100px}.room-game-panel:after{display:none}.challenge-feature:after{display:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+.profile-header>.profile-art{order:3}.profile-header>.profile-avatar{order:1}.profile-header>.profile-avatar+div{order:2}
+.progress-hero>div{position:relative;z-index:1}.progress-art{position:relative;z-index:1}
+.room-match-art{filter:drop-shadow(0 8px 10px #3a9b1b18)}
