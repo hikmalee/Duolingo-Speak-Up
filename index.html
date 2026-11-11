@@ -51,7 +51,7 @@
           <div class="welcome-copy">
             <span class="eyebrow">YOUR ENGLISH, YOUR VOICE</span>
             <h1>Speak more.<br><span>Worry less.</span></h1>
-            <p>Latih kemampuan bahasa Inggrismu lewat percakapan, permainan, dan teman baru.</p>
+            <p>Ngobrol, bermain, dan tumbuh percaya diri.</p>
             <button class="btn btn-light" data-go="room">Mulai Speaking <span>→</span></button>
           </div>
           <div class="welcome-art" aria-label="Maskot Duolingo mengajak pengguna berlatih bahasa Inggris">
@@ -75,21 +75,21 @@
 
         <div class="quick-grid">
           <article class="quick-card room-card">
-            <div class="quick-icon">🎙️</div><span class="card-tag">MOST POPULAR</span>
+            <img class="card-illustration" src="ill-room.svg" alt="Ilustrasi ruang diskusi"><div class="quick-icon">🎙️</div><span class="card-tag">POPULAR</span>
             <h3>Random Discussion Room</h3>
-            <p>Temukan 3 teman baru dan mulai percakapan dalam bahasa Inggris.</p>
+            <p>Temui 3 teman dan mulai ngobrol.</p>
             <button class="text-btn" data-go="room">Masuk room <b>→</b></button>
           </article>
           <article class="quick-card game-card">
-            <div class="quick-icon">🎮</div>
+            <img class="card-illustration" src="ill-games.svg" alt="Ilustrasi permainan"><div class="quick-icon">🎮</div>
             <h3>SpeakUp Games</h3>
-            <p>Belajar kosakata dan komunikasi lewat permainan kelompok.</p>
+            <p>Belajar lewat game bareng.</p>
             <button class="text-btn" data-go="games">Lihat permainan <b>→</b></button>
           </article>
           <article class="quick-card challenge-card">
-            <div class="quick-icon">⚡</div>
+            <img class="card-illustration" src="ill-challenge.svg" alt="Ilustrasi tantangan berbicara"><div class="quick-icon">⚡</div>
             <h3>Daily Speaking</h3>
-            <p>Selesaikan tantangan singkat untuk membangun kepercayaan diri.</p>
+            <p>Latihan singkat setiap hari.</p>
             <button class="text-btn" data-go="challenge">Mulai tantangan <b>→</b></button>
           </article>
         </div>
@@ -106,7 +106,7 @@
         <div class="page-heading">
           <span class="eyebrow green">MEET. TALK. GROW.</span>
           <h1>Random Discussion Room</h1>
-          <p>Ngobrol bersama 3 pengguna lainnya dalam kelompok kecil. Tidak harus sempurna, yang penting berani mencoba!</p>
+          <p>Temui 3 teman. Mulai bicara!</p>
         </div>
         <div class="room-layout">
           <div class="panel room-setup" id="roomSetup">
@@ -171,12 +171,12 @@
       </section>
 
       <section class="page" id="page-games">
-        <div class="page-heading"><span class="eyebrow green">LEARN THROUGH PLAY</span><h1>SpeakUp Games</h1><p>Pilih permainan dan latih kemampuan bahasa Inggris dengan cara yang lebih menyenangkan.</p></div>
+        <div class="page-heading"><span class="eyebrow green">LEARN THROUGH PLAY</span><h1>SpeakUp Games</h1><p>Pilih game. Main dan belajar!</p></div>
         <div class="games-grid">
-          <article class="game-tile" data-game="guess"><div class="game-emoji yellow-bg">🔎</div><span class="game-level">VOCABULARY</span><h3>Guess the Word</h3><p>Tebak kata dari petunjuk yang diberikan.</p><button class="btn btn-outline game-launch">Play game →</button></article>
-          <article class="game-tile" data-game="would"><div class="game-emoji pink-bg">🤔</div><span class="game-level">CONVERSATION</span><h3>Would You Rather</h3><p>Pilih satu opsi dan jelaskan alasanmu.</p><button class="btn btn-outline game-launch">Play game →</button></article>
-          <article class="game-tile" data-game="trivia"><div class="game-emoji blue-bg">🧠</div><span class="game-level">KNOWLEDGE</span><h3>English Trivia</h3><p>Jawab pertanyaan kosakata dan bahasa.</p><button class="btn btn-outline game-launch">Play game →</button></article>
-          <article class="game-tile" data-game="story"><div class="game-emoji green-bg">📖</div><span class="game-level">CREATIVITY</span><h3>Continue the Story</h3><p>Lanjutkan cerita menggunakan kalimatmu.</p><button class="btn btn-outline game-launch">Play game →</button></article>
+          <article class="game-tile" data-game="guess"><img class="game-illustration" src="ill-guess.svg" alt="Ilustrasi Guess the Word"><div class="game-emoji yellow-bg">🔎</div><span class="game-level">VOCABULARY</span><h3>Guess the Word</h3><p>Tebak kata dari petunjuk yang diberikan.</p><button class="btn btn-outline game-launch">Play game →</button></article>
+          <article class="game-tile" data-game="would"><img class="game-illustration" src="ill-would.svg" alt="Ilustrasi Would You Rather"><div class="game-emoji pink-bg">🤔</div><span class="game-level">CONVERSATION</span><h3>Would You Rather</h3><p>Pilih satu opsi dan jelaskan alasanmu.</p><button class="btn btn-outline game-launch">Play game →</button></article>
+          <article class="game-tile" data-game="trivia"><img class="game-illustration" src="ill-trivia.svg" alt="Ilustrasi English Trivia"><div class="game-emoji blue-bg">🧠</div><span class="game-level">KNOWLEDGE</span><h3>English Trivia</h3><p>Jawab pertanyaan kosakata dan bahasa.</p><button class="btn btn-outline game-launch">Play game →</button></article>
+          <article class="game-tile" data-game="story"><img class="game-illustration" src="ill-story.svg" alt="Ilustrasi Continue the Story"><div class="game-emoji green-bg">📖</div><span class="game-level">CREATIVITY</span><h3>Continue the Story</h3><p>Lanjutkan cerita menggunakan kalimatmu.</p><button class="btn btn-outline game-launch">Play game →</button></article>
         </div>
         <div class="panel game-play hidden" id="gamePlay">
           <div class="game-play-head"><div><span class="eyebrow green">MINI GAME</span><h2 id="gameTitle">Guess the Word</h2></div><button class="icon-btn" id="closeGame">✕</button></div>
@@ -185,9 +185,9 @@
       </section>
 
       <section class="page" id="page-challenge">
-        <div class="page-heading"><span class="eyebrow green">ONE SMALL STEP EVERY DAY</span><h1>Speaking Challenge</h1><p>Ambil satu tantangan dan coba ungkapkan pendapatmu dalam bahasa Inggris.</p></div>
+        <div class="page-heading"><span class="eyebrow green">ONE SMALL STEP EVERY DAY</span><h1>Speaking Challenge</h1><p>Satu tantangan kecil setiap hari.</p></div>
         <div class="challenge-feature">
-          <div class="challenge-illustration">🎤<span>✦</span></div>
+          <div class="challenge-illustration"><img src="ill-challenge.svg" alt="Ilustrasi speaking challenge"></div>
           <div class="challenge-info"><span class="card-tag">DAILY CHALLENGE</span><h2>Introduce yourself!</h2><p>Perkenalkan dirimu dalam bahasa Inggris. Ceritakan nama, kegiatan, hobi, dan satu hal menarik tentang dirimu.</p><div class="challenge-meta"><span>⏱ 1–2 minutes</span><span>⚡ +20 XP</span></div><button class="btn btn-primary" id="startChallenge">Mulai tantangan →</button></div>
         </div>
         <div class="panel prompt-panel"><span class="eyebrow green">MORE TOPICS TO TRY</span><div class="prompt-list">
@@ -199,7 +199,7 @@
       </section>
 
       <section class="page" id="page-progress">
-        <div class="page-heading"><span class="eyebrow green">EVERY STEP COUNTS</span><h1>Progress & Rewards</h1><p>Lihat perjalanan belajarmu dan rayakan setiap perkembangan kecil.</p></div>
+        <div class="page-heading"><span class="eyebrow green">EVERY STEP COUNTS</span><h1>Progress & Rewards</h1><p>Setiap langkah berarti.</p></div>
         <div class="progress-hero"><div><span class="eyebrow">YOUR TOTAL EXPERIENCE</span><strong><span id="progressXp">120</span> XP</strong><small>Keep practicing to earn more XP!</small></div><div class="level-badge">🌱<b>Level 2</b><small>Beginner Speaker</small></div></div>
         <div class="stats-grid progress-stats">
           <div class="stat-card"><span class="stat-icon">🎙️</span><div><strong id="progressSessions">4</strong><small>Room selesai</small></div></div>
@@ -215,7 +215,7 @@
       </section>
 
       <section class="page" id="page-profile">
-        <div class="page-heading"><span class="eyebrow green">YOUR ACCOUNT</span><h1>Profil & Pengaturan</h1><p>Atur pengalaman SpeakUp sesuai kenyamananmu.</p></div>
+        <div class="page-heading"><span class="eyebrow green">YOUR ACCOUNT</span><h1>Profil & Pengaturan</h1><p>Atur akun dan preferensimu.</p></div>
         <div class="panel profile-panel"><div class="profile-header"><div class="profile-avatar">H</div><div><h2>Hikmal</h2><p>English learner · Beginner</p></div></div><div class="profile-row"><div><b>Nama tampilan</b><small>Nama yang terlihat di ruang diskusi</small></div><input id="displayName" value="Hikmal" class="text-input"></div><div class="profile-row"><div><b>Tingkat bahasa Inggris</b><small>Digunakan sebagai preferensi pencocokan</small></div><select class="select-field compact-select"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></div><div class="profile-row"><div><b>Privasi kamera</b><small>Kamera selalu dapat dimatikan saat sesi</small></div><span class="safe-label">Optional</span></div><div class="profile-row"><div><b>Pengalaman prototype</b><small>Data tersimpan sementara di browser ini</small></div><span class="safe-label">Demo mode</span></div><button class="btn btn-primary" id="saveProfile">Simpan pengaturan</button></div>
       </section>
 
