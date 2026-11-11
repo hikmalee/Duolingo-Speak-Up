@@ -81,3 +81,71 @@ body.room-mode .room-controls{background:#fff;border:1px solid var(--line);borde
 .control-btn{cursor:pointer}
 .control-btn:focus-visible,.btn:focus-visible{outline:3px solid #a7df80;outline-offset:2px}
 @media(max-width:760px){.video-stage{min-height:105px}.media-disclaimer{text-align:left}}
+
+/* V5 — Visual-first UI refresh: illustrated cards, concise copy, clearer hierarchy */
+:root{--visual-green:#58cc02;--visual-ink:#24352c;--visual-soft:#f5faef}
+body{background:#f6f9f5;color:var(--visual-ink)}
+.app-shell{background:#f6f9f5}
+.sidebar{background:#fff;border-right:1px solid #e9f0e6}
+.brand strong{font-size:21px}
+.nav-link{border-radius:14px;margin:4px 10px;width:calc(100% - 20px);font-weight:900}
+.nav-link.active{background:#eff9e9;color:#3f9200}
+.topbar{background:rgba(255,255,255,.92);backdrop-filter:blur(12px)}
+.main-content{max-width:1480px}
+.welcome-banner{border-radius:28px;box-shadow:0 16px 36px rgba(66,139,28,.12);overflow:hidden}
+.welcome-copy h1{font-size:clamp(34px,4vw,54px);line-height:1.02;letter-spacing:-1.5px}
+.welcome-copy p{max-width:320px;font-size:14px;line-height:1.5}
+.section-heading{margin-top:32px}
+.quick-grid{gap:18px}
+.quick-card{position:relative;overflow:hidden;min-height:245px;padding:20px;border-radius:22px;border:1px solid #e9f0e6;box-shadow:0 8px 24px rgba(35,67,37,.05)}
+.quick-card .card-illustration{display:block;width:calc(100% + 40px);height:120px;object-fit:cover;margin:-20px -20px 13px;border-radius:22px 22px 0 0}
+.quick-icon{position:absolute;top:95px;right:18px;width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:#fff;font-size:21px;box-shadow:0 4px 14px #24352c18}
+.quick-card h3{font-size:17px;margin:7px 0 5px}
+.quick-card p{font-size:12px;line-height:1.4;max-width:260px}
+.card-tag{font-size:9px;letter-spacing:1px}
+.stats-grid{gap:14px}
+.stat-card{border-radius:18px;border:1px solid #e9f0e6;box-shadow:0 6px 18px rgba(35,67,37,.04)}
+.page-heading{margin-bottom:22px}
+.page-heading h1{font-size:clamp(25px,3vw,34px);letter-spacing:-.7px}
+.page-heading p{font-size:13px;margin-top:5px}
+.panel{border-radius:20px;border-color:#e7eee4;box-shadow:0 7px 22px rgba(35,67,37,.045)}
+.room-preview{background:linear-gradient(160deg,#f0fae9,#fff 75%)}
+.preview-step{padding:13px 0}
+.preview-step>span{width:38px;height:38px;display:grid;place-items:center;border-radius:13px;background:#fff;color:#58a91c;font-size:16px;box-shadow:0 3px 10px #203c1712}
+.games-grid{gap:18px}
+.game-tile{position:relative;overflow:hidden;padding:14px;border-radius:22px;border:1px solid #e8efe5;box-shadow:0 8px 24px rgba(35,67,37,.05)}
+.game-illustration{width:100%;height:142px;object-fit:cover;border-radius:15px;margin-bottom:14px;display:block}
+.game-emoji{position:absolute;top:122px;right:25px;width:42px;height:42px;display:grid;place-items:center;border:3px solid white;border-radius:14px;font-size:20px}
+.game-tile h3{font-size:17px;margin:7px 0}
+.game-tile p{font-size:12px;line-height:1.4;min-height:34px}
+.game-tile .btn{width:100%;justify-content:center;margin-top:8px}
+.challenge-feature{border-radius:24px;overflow:hidden;box-shadow:0 8px 24px rgba(35,67,37,.05)}
+.challenge-illustration{background:transparent;min-width:42%;padding:0}
+.challenge-illustration img{width:100%;height:100%;min-height:220px;object-fit:cover;display:block}
+.prompt-item{border-radius:14px;margin:5px 0;padding:12px;background:#fbfdf9}
+.prompt-item>span:first-child{width:44px;height:44px;display:grid;place-items:center;border-radius:14px;background:#eff9e9;font-size:22px}
+.achievement-grid{gap:12px}
+.achievement{border-radius:17px;padding:17px}
+.achievement>span{font-size:30px}
+.profile-panel{max-width:850px}
+.btn{border-radius:13px;font-weight:900}
+.btn-primary{box-shadow:0 4px 0 #399000}
+.room-game-tab{border-radius:13px;padding:11px 14px}
+.room-game-content{border-radius:17px}
+.participant{border-radius:17px}
+.video-stage{border-radius:15px}
+@media(max-width:760px){
+ .main-content{padding:14px}
+ .welcome-banner{border-radius:22px;padding:22px}
+ .welcome-copy{max-width:70%}
+ .welcome-copy h1{font-size:34px}
+ .welcome-copy p{font-size:12px}
+ .quick-grid,.games-grid{gap:12px}
+ .quick-card{padding:14px;min-height:220px}
+ .quick-card .card-illustration{width:calc(100% + 28px);height:105px;margin:-14px -14px 12px}
+ .quick-icon{top:82px;right:13px}
+ .game-illustration{height:120px}
+ .game-emoji{top:100px;right:22px}
+ .challenge-illustration{min-width:38%}
+ .challenge-illustration img{min-height:190px}
+}
